@@ -1,0 +1,200 @@
+INSTALLATION
+------------
+(Debian and ubuntu now have packages in repositories you can install)
+There may be a more recent version available as a .deb file on sourceforge.
+There may be a more recent source code version available as a .tar.gz file on sourceforge.
+
+The general procedure will be like this if you compile from source.
+(see below for details for different distros):
+
+Download:
+	You download the compressed archive file
+
+Unpack:
+	You uncompress the archive to get several files required to install the driver.
+	(This is one of those files, so you have probably done that already)
+
+(Optional) Install packages needed for this driver to work:
+	You may need to install some packages before you can install the driver.
+	Most distros have some package manager that you use to do this.
+ 
+(Optional) Uninstall:
+	If you have already installed a previous version of this driver, it might be helpful to uninstall it.
+	If not, ignore this step.
+
+Configure:
+	Check details of the system and change the install process to suit.
+	Configuring will be done by a command like "./configure"
+
+Compile:
+	You need to convert the program, written in c, into something your computer can run.
+	Compiling will be done by a command like "make"
+
+Install driver,  PPD files, and extra files:
+	Various files need to be copied to folders where the system can find them.
+	This will be done with a command like "make install"
+
+Create printers:
+	This is where you tell cups about the new printer.
+
+Then it should be possible to print.
+
+
+Detailed versions follow for different distros:
+
+UBUNTU NOTES  
+------------
+(in the following NN in the filename c2espNN means the 2 digits of the release no)
+(so for release 0.4, you would type c2esp04 )
+
+Download:
+	You download the compressed archive file from http://sourceforge.net/projects/cupsdriverkodak/
+	It is usually convenient to store the dowloaded file in your home directory.
+
+Unpack:
+	You uncompress the archive to get several files required to install the driver.
+	If you double click on the dowloaded .tar.gz file, the archive manager should open. 
+	Use the extract button to extract files from the archive.
+	The goal is to get a folder called something like c2esp04 (the last 2 digits depend on the version of the driver)in some place you specify, for example in your home folder.
+	This folder should contain the files in the archive.
+
+(Optional) Install packages needed for this driver to work:
+	You may need to install some packages if you do not already have them, before you can install the driver.
+	I'm assuming you know how to do that (with synaptic package manager).
+	You will need the following:
+		build-essential
+		cups
+		libcups2-dev
+		libcupsimage2-dev
+		libcupsdriver1-dev
+
+	For cups versions 1.6 or later the cups dependencies may be different
+
+You need to open a terminal for the following steps:
+	ctrl-alt-t will start terminal
+	When the terminal starts you will be in your home folder. You need to navigate to the folder where you unpacked the driver.
+	(in the following NN in the filename c2espNN means the 2 digits of the release no)
+	(so for release 0.4, you would type c2esp04 )
+	For example (in this example "$" represents the prompt, you type what follows the $:
+		$ cd c2espNN
+ 
+(Optional) Uninstall:
+	If you have already installed a previous version of this driver, it might be helpful to uninstall it.
+	If not, ignore this step.
+	To uninstall, you type:
+		$ sudo make uninstall
+	The sudo indicates that you want to do some kind of system modification that you would normally be prevented from doing.
+	So you get asked for the password the first time you use sudo.
+
+Configure:
+	To configure, you type:
+		$ ./configure
+	You may get messages suggesting you need to install some package (see the (Optional) Install packages section above)
+	You may get some warnings, you can probably ignore those.
+
+Compile:
+	You need to convert the program, written in c, into something your computer can run.
+	To compile, you type:
+		$ make
+	You may get messages suggesting you need to install some package (see the (Optional) Install packages section above)
+	You may get some warnings, you can probably ignore those.
+	You may get some error messages, if so it's unlikely you can continue.
+
+Install driver,  PPD files, and extra files:
+	Various files need to be copied to folders where the system can find them.
+	To install, you type:
+		$ sudo make install
+	The sudo indicates that you want to do some kind of system modification that you would normally be prevented from doing.
+	So you get asked for the password the first time you use sudo.
+
+Create printers:
+	This is where you tell cups about the new printer.
+	Turn the printer on.
+
+	(in ubuntu 10.xx)
+	Menu: System/Administration/Printing 
+	A printer configuration window should open.
+	Click the "new" button, and wait while the system searches for printers, you should get a "Select device" window.
+	Navigate to the printer (network printer or USB printer). 
+	I find I have to wait for several seconds after clicking on a network printer for it to be highlighted.
+	If you are setting up a new version of c2esp, you may have more than one version of the printer to choose from.
+	From c2esp11 and later there is more than one ppd file: model 5200 has no duplex, model 5500 has duplex.
+	From c2esp13 and later there are 4 ppd files 5200 non duplex / 5500 duplex, dithered / non dithered
+	Select the file that best matches your printer model. Dithered is better quality, uses more memory and is slower.
+	From c2esp18 and later there is one ppd per printer model. Dithered/non dithered are choices in the colour options.
+	Click "Forward" and wait again for the "Describe printer" window.
+	Change the names if you wish, and click the "Apply" button.
+	Print test page if you wish, but you might do this first:
+	If you right click the newly created printer in the printer configuration window, you can set up some default properties like:
+		Colour or b/w, resolution, paper size etc. (under printer options)
+	I generally make 2 printers, one colour and one b/w. But that's not essential.
+	Also in the printer configuration window, you can see some messages showing progress of the print job.
+	
+	(in ubuntu 11.0x) 
+	I think you need to use the web interface for cups, point web browser to http://localhost:631/admin
+	Then follow a similar sequence to above to create a printer queue.
+
+	Now there is a script to try and update ppds of existing print queues, if you are updating c2esp
+		$ sudo make forceppd
+	(in ubuntu 11.10 and later)
+	c2esp is included in this disto, so the printer should just work 
+	(you may need to create print queue as described for ubuntu 11.0x 
+
+
+Then it should be possible for you to print.
+
+SIXTY FOUR BIT
+------
+	There are three ways that I know to install in 64 bit. 
+	1. This way is potentially the easiest, I have not tested it: jolting, made a repository from version c2esp08  Install it like this in terminal: sudo add-apt-repository ppa:jolting/cupsdriverkodak sudo apt-get update sudo apt-get install c2esp 
+
+	2. You download the latest tar file (currently c2esp26) and extract it somewhere convenient for you then make and install it. You can find instructions in the extracted tar file, or in some other topics in help. Also you can find some tips from people who have done this in other topics in help.
+
+	3. Debian and Ubuntu now include c2esp as an installable package.
+
+DEBIAN NOTES
+------------
+	BEWARE, THESE DEBIAN NOTES ARE JUST A GUESS THEY ARE UNTESTED.
+
+    Install build-essential,  cupsys FIRST:
+	$ su
+	# apt-get install build-essential
+	# apt-get install cupsys
+
+	$ wget -O c2espNN.tar.gz http://<address of file>
+        $ tar zxf c2espNN.tar.gz
+        $ cd c2espNN
+        $ ./configure
+	$ make
+        $ su
+        # make install
+	$ firefox http://localhost:631
+
+
+UNINSTALLING
+------------
+    This will uninstall everything from your system.
+
+    $ su
+    # make uninstall
+
+BUG REPORTS
+-----------
+
+DEVELOPER AND DEBUGGING TIPS
+----------------------------
+	c2esp creates some files in /tmp if it was compiled with DEBUGFILES = 1
+	KodakPrintLog - may help to identify where c2esp goes wrong
+	KodakPrintFile - a copy of what gets sent to the printer
+	RasForComp.pbm - the raster data, before it gets compressed and sent to the printer
+
+	In /etc/cups/cupsd.conf
+	Change LogLevel warn to LogLevel debug to get much more information in /var/log/cups/error_log
+	All the logging output that would go into the file KodakPrintLog now goes into cups/error_log. 
+	This allows users who install a binary package to get logging data without needing to recompile.
+
+	Since cups/error_log gets quite large,
+	the command c2esplog is provided to extract the lines relevant to c2esp from cups/error_log.
+
+
+

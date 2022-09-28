@@ -1,0 +1,44 @@
+From: Didier Raboud <odyx@debian.org>
+Date: Fri, 24 Jul 2020 09:59:59 +0200
+Subject: Add extern stanzas to variable definitions in header,
+ for GCC-10 -fno-common new default
+
+Closes: #957061
+---
+ src/c2espcommon.c | 4 ++--
+ src/c2espcommon.h | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/src/c2espcommon.c b/src/c2espcommon.c
+index 0c83471..fa5dd8f 100644
+--- a/src/c2espcommon.c
++++ b/src/c2espcommon.c
+@@ -42,11 +42,11 @@
+  * Globals...
+  */
+ char		CallerName[50];  	/* String that identifies the calling program */
+-int		DoBack;			/* Enables the back channel comms */ 
++extern int	DoBack;			/* Enables the back channel comms */
+ char 		BackBuf[32000]; //for the back channel replies from the printer
+ int 		BackBufLen=sizeof(BackBuf)-1;
+ FILE 		*LogFile = NULL; //file descriptor for log file
+-time_t		StartTime;
++extern time_t	StartTime;
+ int		BlackPercent, ColourPercent;
+ 
+ time_t KeepAwake(time_t Start, int Interval, FILE *PrintFile)
+diff --git a/src/c2espcommon.h b/src/c2espcommon.h
+index 088a2b8..e657481 100644
+--- a/src/c2espcommon.h
++++ b/src/c2espcommon.h
+@@ -35,8 +35,8 @@
+ /*
+  * Globals...
+ */
+-char 		BackBuf[32000]; //for the back channel replies from the printer
+-int		ColourPercent, BlackPercent; //to store the detected marker levels
++extern char BackBuf[32000]; //for the back channel replies from the printer
++extern int ColourPercent, BlackPercent; //to store the detected marker levels
+ 
+ 
+ time_t KeepAwake(time_t Start, int Interval, FILE *PrintFile);

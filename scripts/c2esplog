@@ -1,0 +1,5 @@
+#!/bin/sh
+# script for c2esp, extracts c2esp entries from the cups error log
+# This is just a time saver for developers / debuggers
+grep c2esp /var/log/cups/error_log
+

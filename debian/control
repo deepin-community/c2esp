@@ -1,0 +1,53 @@
+Source: c2esp
+Maintainer: Debian Printing Team <debian-printing@lists.debian.org>
+Uploaders: Thorsten Alteholz <debian@alteholz.de>
+Section: text
+Priority: optional
+Build-Depends:
+ debhelper-compat (= 13),
+ libcupsfilters-dev,
+ libcupsimage2-dev (>= 1.6),
+ libjbig-dev,
+Standards-Version: 4.6.0
+Vcs-Browser: https://salsa.debian.org/printing-team/c2esp
+Vcs-Git: https://salsa.debian.org/printing-team/c2esp.git
+Homepage: https://sourceforge.net/projects/cupsdriverkodak/
+Rules-Requires-Root: no
+
+Package: printer-driver-c2esp
+Architecture: any
+Depends:
+ ${misc:Depends},
+ ${shlibs:Depends},
+Recommends:
+ cups-ppdc,
+Suggests:
+ psutils,
+Description: printer driver for Kodak ESP AiO color inkjet Series
+ The c2esp driver is an open source driver for the Kodak ESP AiO and HERO
+ AiO color inkjet printers series. It is likely to work on the
+ 5100 AiO,
+ 5300 AiO,
+ 5500 AiO,
+ ESP 1.2 AiO,
+ ESP 2.2 AiO,
+ ESP 3200 Series AiO,
+ ESP 3.2 AiO,
+ ESP 3 AiO,
+ ESP 4.2 AiO,
+ ESP 5200 Series AiO,
+ ESP 5 AiO,
+ ESP 7200 Series AiO,
+ ESP 7 AiO,
+ ESP 9200 Series AiO,
+ ESP 9 AiO,
+ ESP C100 Series AiO,
+ ESP C110 Series AiO,
+ ESP C310 Series AiO,
+ ESP Office 4100 Series AiO,
+ ESP Office 6100 Series AiO,
+ HERO 3.1 AiO,
+ HERO 5.1 AiO,
+ HERO 6.1 AiO,
+ HERO 7.1 AiO and
+ HERO 9.1 AiO.

@@ -1,0 +1,211 @@
+Readme file for Kodak ESP series and Hero series cups driver.
+=============================================================
+
+    Please read the "INSTALL" file to see how to install this software.
+
+VERSION NOTES
+
+Version 2.7
+	- As 2.6 but with ppd entries for ESP 1.2 and ESP 3.2. The drv files are now installed instead of the ppd files. The jbig library is no longer shipped with c2esp. ShortNickName added to the drv files to pass more ppdc tests. The compile and install system has been changed to autoconf/automake.
+
+Version 2.6
+	- As 2.5c but with a modified makefile so it will build with cups 1.5.x or 1.6.x Also a few more ppd files. 
+
+Version 2.5c
+	- As 2.5b but with patch from awl29 applied and some other mods. The problems with AIO 5100 5300 5500 seem to actually have been problems with cups caused by errors in the ppd files. Now these errors are fixed, so we expect to no longer have these problems. Reports of testing would be helpful.
+
+Version 2.5b
+	- As 2.5a but the DEBUGFILES and TESTING option system tidied up. Set these options in c2espcommon.h
+	- Added a test of the raster header. If the resolution values are not sensible, no data will be sent to the printer. THIS SHOULD MAKE TESTING THE AIO 5100 5300 5500 SAFER.
+
+Version 2.5a
+	- IT SEEMS THAT THIS VERSION MAY NOT WORK WITH THE AIO 5100 5300 5500 PRINTERS
+	- As 2.5 but the data chunk size limit was reinstated.
+
+Version 2.5
+	- IT SEEMS THAT THIS VERSION MAY NOT WORK WITH THE AIO 5100 5300 5500 PRINTERS
+	- The c2esp filter for the ESP series has been significantly rewritten to enable some ppd attributes like cupsInkLimit and cupsBlackGeneration.
+	- The grey ink is now used. This makes grey areas properly grey (less green than they used to be).
+	- Because of the grey ink and cupsInkLimit, ink cartridges should last longer.
+	- The Black&White option is now dithered properly (and also uses the grey ink).
+	- The data chunk size limit was unintentionally left out.
+
+Version 2.4
+	- patch from user awl29 applied to fix problems with non bi-directional printers, smb shared - data chunk size limit applied in c2espC, some printers can't handle large data chunks.
+
+Version 2.3
+	- ppd files for the hero series had printer model names and 1284DeviceID changed to enable system-config-printer to find the correct ppd automatically. The ESP xxxx series also install automatically. I do not know the 1284DeviceID for the ESP Cxxx series yet.
+	- This version will be released also as a .deb file. It should work pretty well for all 3 series (ESP xxxx, ESP Cxxx, Hero)
+
+Version 2.2
+	- A few bugs fixed. ppd files were not showing color options correctly. Some attempts made to speed up printing by removing unnecessary delays.
+
+Version 2.2~rc1
+	- I now have a Hero 9.1 printer, so I can test the c2espC filter. This version should now work in b/w and colour 300 and 600dpi on the Cxxx series and the Hero series.
+	- More ppd files to match the different printers. More paper sizes added to the ppds and filters.
+	- The duplex and photo paper tray on the Hero series (and perhaps others like ESP 7250?) should now work.
+	- Added "make ppd" to the make file to generate the ppd files from the *.drv files using ppdc if you have it installed. Though the ppd files are already included in the source, so you only need this if you modify them.
+
+Version 2.1
+	- as 2.1~rc3 Making deb file too.
+
+Version 2.1~rc3
+	- significant changes from rc2. Some functions common to c2esp and c2espC are now in a common library (c2espcommon.c). The log entries have been made more detailed and neater. In c2espC the temporary file for holding the compressed data is now a system named file that should not persist after c2espC terminates.
+	- c2espC filter (for the C series) now attempts to handle greyscale or colour at 300dpi or 600dpi, but I have no Cxxx printer so I cannot test it fully.
+	- a script now called c2esplog is provided to extract entries for c2esp or c2espC from the cups error log. Type cupslog in terminal to see the log entries, or cupslog >yourfilename to save in a file.
+
+Version 2.1~rc2
+	- c2espC filter (for the C series) now attempts to handle greyscale or colour at 300dpi or 600dpi. Several bugs have been fixed, but I have no Cxxx printer so I cannot test it fully.
+	- a script called cupslog is provided to extract entries for c2esp or c2espC from the cups error log. Type cupslog in terminal to see the log entries, or cupslog >yourfilename to save in a file.
+
+Version 2.1~rc1
+	- c2espC filter (for the C series) now attempts to handle greyscale or colour at 300dpi or 600dpi
+	- sudo make forceppd  Will attempt to update the ppds of existing queues
+
+Version 2.0a
+	- Bugs in c2espC filter (for the C series) fixed to allow it to handle more than 1 page. black and white draft only in this version. myopldecode tidied up and bug fixed.
+
+Version 2.0
+	- The makefile now echoes the ppd files to verify which ones are intalled. Unused stuff removed from the makefile.
+c2espC filter added for the C series. black and white draft only in this version - But since I don't have one of these printers to test I'd be surprised if it actually prints anything without some more development.
+
+Version 1.9
+	- This is functionally the same as 1.8, but various mods were made to reduce security risks (debug files are no longer created in /tmp unless you modify the makefile to require them). The debug tool myopldecode is no longer installed unless you modify the makefile to require it.
+
+Version 1.8
+	- There is now a command filter. It is possible to refresh the ink level display before printing. Also possible to print the printers own self test page, and do a head clean from printer manager. Printing an alinment page should also be possible but there seems to be no button for that in printer manager.
+	- The ppd files have been reorganised. Now there is one for each model. If you have too many old files do a "sudo make uninstall" before doing "sudo make install" to remove the old files. There is no longer a special dither version of each ppd file, instead there are two colour options: "colour dither" and "colour nondither". dither is recommended, use nondither if you need something faster. Models 3200 and 5200 do not have the duplex option, 6100 and higher have the duplex option.
+
+Version 1.7
+	- "INFO:" in stderr seems to be displayed again in printer manager in Ubuntu 10.10 . Maybe this was a bug in printer manager or cups that has been fixed?
+	- Ink levels (marker levels) are now communicated to cups
+	- A bug introduced in ver 1.4 where the compressed data was not closed off properly now appears to be fixed. This caused the printer to stall mid page when printing some files.
+
+Version 1.6
+	- Minor changes to /tmp/KodakPrintLog eg Message when c2esp finishes to say how many pages were processed.
+	- When c2esp is ready to finish the timeout for the PrinterUnlock? command was increased. This should fix a problem where c2esp was finishing a multipage job before the printer had finished printing, then the printer timed out and did not print the end of the job.
+	- NB the messages added in version 1.4 ("INFO" in stderr) no longer seem to be displayed in printer manager in Ubuntu 10.10
+
+Version 1.5
+	- Only about 1/10 of a page is stored in memory now, so the memory requirements are reduced. (Ghostscript will still use quite a lot of memory)
+	- Some redundant program lines that caused run time errors for some users have been deleted.
+
+Version 1.4
+	- ppd files changed: gamma =1.5 to try and make colours better (but it's starting to depend on taste now). You need to reselect "drivers" in cups to select the new ppds.
+	- data is now sent to the printer as soon as possible, which is more reassuring since printing starts sooner.
+	- in the printer configuration window, you can see more messages showing progress of the print job.
+
+Version 1.3
+	- Bug that stopped printing on 6 x 4 paper fixed.
+	- 600x1200 dpi is now processed with dithering which makes the dot pattern much smoother. (And makes printing slower). 
+	- You can print without dithering, like ver 1.2 or less, by using the non-dither ppd files. (there are now 4 ppd files: duplex/non-duplex and dither/non-dither).
+	- Colour maps have been changed to try and improve the "red prints as orange" problem.
+	- This version is a bit slow and clunky. The data is saved in a temporary file and then sent to the printer (easier for debugging)
+	- The makefile has been modified (-lcups added) to try and improve linking in Fedora.
+	- HW margins have been reduced to 1mm because some printed pages were being cropped by the 5mm margins.
+	- When printing documents that involve large amounts of print data the printer appeared to disconnect from the driver during processing. Extra commands are now sent to try and fix this.
+
+Version 1.2
+	- bug that stopped black printing 0.75 inches from RH edge of letter paper using 600dpi and colour fixed
+
+Version 1.1
+	- duplex option now has a separate ppd file. 
+	- model 5200 has no duplex option
+	- model 5500 has duplex
+	- NB using the duplex option with a non duplex printer may cause a paper jam
+
+Version 1.0
+	- duplex option modified. NB using the duplex option with a non duplex printer may cause a paper jam
+
+Version 0.9
+	- makefile has -lcupsimage instead of /usr/lib/libcupsimage.so.2 (intention: to make sucessfully in non ubuntu distros)
+	- duplex option added - but did not work
+
+Version 0.8
+	- makefile simplified and modified to suit making deb package
+
+Version 0.7
+	- bug fixed: when cupsBackChannelRead returned -1 we got a segmentation error.
+
+Version 0.6
+	- the *.~ files are now removed by make clean
+	- some redundant includes removed
+
+Version 0.5
+	- As V 0.4 except the source for the ppd file KodakESP_05.drv is now supplied. 
+
+Version 0.4
+	- myopldecode tidied up to stop some compilation warnings.
+	- draft mode (300x1200) added, should use less ink.
+	- Memory use reduced, now 500Mb for A4 colour with normal (600x1200) resolution
+	- Detailed step by step installation notes in INSTALL file for ubuntu.
+	- It has been tested with Kodak ESP 5250 and ESP 3250 all in one printers, just for printing in colour and black and white (no scanning), using the wireless network connection and the USB connection.
+	- If you test it on another ESP printer it would be very nice to know if it worked or not (please use the forum on sourceforge to tell me)
+	- It has been tested on 32 bit Ubuntu 9.10. and on Fedora
+	- Printing from gedit (or other text editor that does not divide the text into pages) may not work properly when the output needs more than 1 page.
+	- The colour balance in pictures may not be very good. I have spent no time fine tuning it.
+	- You need to have CUPS installed.
+
+Version 0.3
+	- It has only been tested with a Kodak ESP 5250 all in one printer, just for printing in colour and black and white (no scanning), using the wireless network connection and the USB connection.
+	- If you test it on another ESP printer it would be very nice to know if it worked or not (use the forum on sourceforge)
+	- It has only been tested on 32 bit Ubuntu 9.10.
+	- Memory use is high >2Gb total of actual memory + swap when colour printing A4 or letter size. Perhaps this is normal for CUPS raster printing? I don't know.
+	- Printing from gedit (or other text editor that does not divide the text into pages) may not work properly when the output needs more than 1 page.
+	- The colour balance in pictures may not be very good. I have spent no time fine tuning it.
+	- Some suplus stuff removed (foomatic db files).
+	- Some extra dependency tests added to makefile - to check the CUPS libraries are there.
+	- You need to have CUPS installed.
+
+Version 0.2
+	- It has only been tested with a Kodak ESP 5250 all in one printer, just for printing in colour and black and white (no scanning), using the wireless network connection and the USB connection.
+	- If you test it on another ESP printer it would be very nice to know if it worked or not (use the forum on sourceforge)
+	- It has only been tested on 32 bit Ubuntu 9.10.
+	- Memory use is high >2Gb total of actual memory + swap when colour printing A4 or letter size. Perhaps this is normal for CUPS raster printing? I don't know.
+	- Printing from gedit (or other text editor that does not divide the text into pages) may not work properly when the output needs more than 1 page.
+	- The colour balance in pictures may not be very good. I have spent no time fine tuning it.
+	- The user interface in the ppd file has been tidied up.
+
+
+Version 0.1
+	This is the first release. 
+	- It has only been tested with a Kodak ESP 5250 all in one printer, just for printing in colour and black and white (no scanning), using the wireless network connection.
+	- It has only been tested on 32 bit Ubuntu 9.10.
+	- Memory use is high >2Gb total of actual memory + swap when colour printing A4 or letter size. Perhaps this is normal for CUPS raster printing? I don't know.
+	- Printing from gedit (or other text editor that does not divide the text into pages) may not work properly when the output needs more than 1 page.
+	- The colour balance in pictures may not be very good. I have spent no time fine tuning it.
+
+
+AUTHORS
+The majority of the code in the filter written by Paul Newall.
+ 
+The general structure of the filter is based on the rastertohp filter supplied with cups.
+The JBIG compression system is pretty much the system from foo2lava by Rick Richardson, and Rick via foo2lava made a big contribution to my understanding of how to write a filter. 
+
+The JBIG compression itself is done by Markus Kuhn's JBIG-KIT compression library (included, but available at http://www.cl.cam.ac.uk/~mgk25/jbigkit/),
+I hope I have acknowledged other's contributions appropriately. This is the first time I have released anything under the GPL.
+
+LICENSE
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or (at
+your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+PATENTS
+It is possible that certain products which can be built using the jbig
+software module might form inventions protected by patent rights in
+some countries (e.g., by patents about arithmetic coding algorithms
+owned by IBM and AT&T in the USA). Provision of this software by the
+author does NOT include any licences for any patents. In those
+countries where a patent licence is required for certain applications
+of this software module, you will have to obtain such a licence
+yourself.

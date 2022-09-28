@@ -1,0 +1,5 @@
+usr/bin/c2esplog
+usr/share/cups/doc/c2esp/INSTALL
+usr/share/cups/doc/c2esp/README
+usr/share/cups/drv/c2esp/KodakESP_16.drv
+usr/share/cups/drv/c2esp/KodakESP_C_07.drv
